@@ -9,7 +9,9 @@ app.use(cookieParser());
 app.use(express.json()); 
 const authRoute= require("./Routes/auth");
 const userRoute = require("./Routes/user"); 
-const productRoute = require("./Routes/product"); 
+const workRoute = require("./Routes/work"); 
+const messageRoute = require("./Routes/message"); 
+
 
 
 const database = require('./database/Database');
@@ -35,7 +37,9 @@ app.use(cors({
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
-app.use("/api/product", productRoute);
+app.use("/api/work", workRoute);
+app.use("/api/message", messageRoute);
+
 
 
 

@@ -9,7 +9,7 @@ const options = require("../middleware/options");
 // Register
 const Register  =async(req, res,next)=>{
    try{
-    const {email, password} = req.body;
+    const { password} = req.body;
     const UserExist =await User.findOne({email:req.body.email});
     if(UserExist){
       return res.status(400).json(ErrorResponse(400,"user Already Exists"))
@@ -19,7 +19,6 @@ const Register  =async(req, res,next)=>{
         const newUser =  new User({
             ...req.body,
             password: hashedPassword,
-            role: "user"
 
         });
 
@@ -48,7 +47,7 @@ const Login = async(req, res, next)=>{
             if (!isMatch) {
                 return res.status(400).json(ErrorResponse(400, "Invalid Email or password"))
             }else{
-                const token = jwt.sign({ user:user }, process.env.JWT_SECRET, { expiresIn: '1h'});
+                const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h'});
                 return res.cookie(
                     "token",
                     token,
@@ -75,7 +74,7 @@ const googleLogin = async (req, res, next) => {
         let user = await User.findOne({ email });
         if (user) {
             const token = jwt.sign(
-                { userId: user._id, email: user.email },
+                { id: user._id, role: user.role },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
@@ -88,14 +87,13 @@ const googleLogin = async (req, res, next) => {
                 name,
                 email,
                 photoURL,
-                password: "google",
-                role: "user",
+                role: "Employee",
             });
 
             user = await newUser.save();
 
             const token = jwt.sign(
-                { userId: user._id, email: user.email },
+                { id: user._id, role: user.role },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
