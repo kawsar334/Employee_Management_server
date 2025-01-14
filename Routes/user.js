@@ -2,7 +2,6 @@
 
 const express = require("express");;
 const router = express.Router();
-
 const {
     updateUser,
     deleteUser,
@@ -11,6 +10,7 @@ const {
     getUserStats,
     updateProfilePicture
 } = require("../controllers/user");
+const { authenticateJWT, authenticateAdmin } = require("../middleware/jwt");
 
 // Route to update a user by ID
 router.put("/update/:id", updateUser);
@@ -22,12 +22,11 @@ router.delete("/:id", deleteUser);
 router.get("/find/:id", getSingleUser);
 
 // Route to get all users
-router.get("/userList", getAllUsers);
+router.get("/userList", authenticateJWT, getAllUsers);
+
 // Route to get user stats
 router.get("/stats", getUserStats);
+
 // updateProfilePicture
 router.put("/updatedprofilepic/:userId", updateProfilePicture);
-
-
-
 module.exports = router;

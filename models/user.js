@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Employee', 'HR', 'Admin'], required: true
+        enum: ['employee', 'hr', 'admin'], required: true
 
     },
     bankAccountNo: {
@@ -46,8 +46,12 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-
+ 
     },
+    message:{
+        type:Array ,
+        default: [],
+    }
 
 
 }, { timestamps: true });

@@ -8,8 +8,6 @@ const { creatework,
     deletework } = require("../controllers/work");
 const { authenticateJWT } = require("../middleware/jwt");
 
-
-
 // create a new work 
 route.post("/creatework", authenticateJWT, creatework);
 // update work by Id

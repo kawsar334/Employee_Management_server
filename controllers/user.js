@@ -42,6 +42,7 @@ const deleteUser = async (req, res, next) => {
 
 // Get single user by ID
 const getSingleUser = async (req, res, next) => {
+    
     try {
         const userId = req.params.id;
         const user = await User.findById(userId);

@@ -87,7 +87,7 @@ const googleLogin = async (req, res, next) => {
                 name,
                 email,
                 photoURL,
-                role: "Employee",
+                role: "employee",
             });
 
             user = await newUser.save();
