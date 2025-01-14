@@ -16,8 +16,8 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-module.exports = { authenticateJWT };
 
+// admin verify 
 const authenticateAdmin = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).send('Access Denied: No Token Provided');
@@ -28,7 +28,6 @@ const authenticateAdmin = (req, res, next) => {
         if (req.user.role !== "admin") {
             return res.status(403).json({ error: 'Access Denied: Admins Only' });
         }
-
         next(); 
     } catch (err) {
         console.log(err)

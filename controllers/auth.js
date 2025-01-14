@@ -123,4 +123,23 @@ const logout = (req, res, next) => {
     }
 };
 
-module.exports = { Register, Login, googleLogin, logout }
+
+const jwtSignin = async (req, res, next) => {
+    try {
+
+        const token = jwt.sign(
+            { id:req.body._id, role: req.body.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        return res
+            .cookie("token", token, options)
+            .status(201)
+            .json(SuccessResponse(201, "Registration and login successful", { token, user }));
+    }catch (err) {
+        consoe.log(err);
+    }
+}
+
+module.exports = { Register, Login, googleLogin, logout, jwtSignin }

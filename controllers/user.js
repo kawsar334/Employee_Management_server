@@ -124,6 +124,10 @@ const updateProfilePicture = async (req, res) => {
     }
 }
 
+// signin with jwt 
+
+
+
 
 module.exports = {
     updateUser,
