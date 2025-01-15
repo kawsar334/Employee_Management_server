@@ -18,11 +18,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['employee', 'hr', 'admin'], required: true
+        enum: ['employee', 'hr', 'admin'],
+         required: true
 
     },
     bankAccountNo: {
-        type: String
+        type: String,
+        required: true,
 
     },
     salary: {
@@ -33,6 +35,10 @@ const userSchema = new mongoose.Schema({
     designation: {
         type: String
 
+    },
+    isFired:{
+        type: Boolean,
+        default: false
     },
     photoURL: {
         type: String

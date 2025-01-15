@@ -7,8 +7,9 @@ const Work = require("../models/work");
 const creatework = async (req, res, next) => {
     try {
         const newwork = new Work({
+            employeeId:req.user.id,
             ...req.body,
-        });
+        }); 
         const work = await newwork.save();
         return res.status(201).json(SuccessResponse(201, "work created successfully", work));
     } catch (err) {
@@ -17,11 +18,14 @@ const creatework = async (req, res, next) => {
     }
 };
 
+
 // Get all works
 const getAllworks = async (req, res, next) => {
     const userId = req.user.id;
     try {
-        const works = await Work.find({ user: userId });
+        const works = await Work.find({ employeeId: userId }).sort({
+            createdAt: -1,
+        });
         return res.status(200).json(SuccessResponse(200, "works fetched successfully", works));
     } catch (err) {
         console.log(err);
@@ -29,8 +33,18 @@ const getAllworks = async (req, res, next) => {
     }
 };
 
-// Get a single work by ID
+// Get a single work by specefic ID
 const getworkById = async (req, res, next) => {
+
+    // app.get('/tasks', async (req, res) => {
+    //     const { userId } = req.query;
+    //     try {
+    //         const tasks = await Task.find({ userId });
+    //         res.status(200).json(tasks);
+    //     } catch (err) {
+    //         res.status(500).json({ error: err.message });
+    //     }
+    // })
 
     const { id } = req.params;
     const userId = req.user.id;
@@ -48,12 +62,20 @@ const getworkById = async (req, res, next) => {
     }
 };
 
+// ;
+
+
 // Update work by ID
 const updatework = async (req, res, next) => {
+    const { id } = req.params;
+    const { task, hoursWorked, date } = req.body;
     try {
-        const updatedwork = await Work.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+        const updatedwork = await Work.findByIdAndUpdate(
+            id,
+            { task, hoursWorked, date },
+            { new: true }
+        ).sort({
+            createdAt: -1,
         });
 
         if (!updatedwork) {
@@ -67,11 +89,11 @@ const updatework = async (req, res, next) => {
     }
 };
 
+
 // Delete work by ID
 const deletework = async (req, res, next) => {
     try {
         const deletedwork = await Work.findByIdAndDelete(req.params.id);
-
         if (!deletedwork) {
             return res.status(404).json(ErrorResponse(404, "work not found"));
         }

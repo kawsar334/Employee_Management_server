@@ -1,6 +1,7 @@
 const Message = require("../models/message")
 const { ErrorResponse, SuccessResponse } = require("../middleware/customMessage");
 const User = require("../models/user");
+const user = require("../models/user");
 
 
 
@@ -9,21 +10,19 @@ const createMessage = async (req, res) => {
     try {
         const { email, message } = req.body;
         const newMessage = new Message({ email, message });
-        // const users = await User.find({rold:"admin"});
-              // const admins = await User.find({ role: "admin" });
-        
-        // // Push the new message into each admin's messages array
-        // const updatePromises = admins.map(admin => {
-        //     admin.messages.push({
-        //         _id: newMessage._id,
-        //         email: newMessage.email,
-        //         message: newMessage.message,
-        //         createdAt: newMessage.createdAt,
-        //         updatedAt: newMessage.updatedAt,
-        //     });
-        //     return admin.save(); // Save the updated admin document
-        // });
-        await newMessage.save();
+     
+        const savemessage=  await newMessage.save();
+        await User.updateMany({
+            role: "admin",
+        },
+            { $push: { message: savemessage } }
+        )
+        await User.updateMany({
+            role: "hr",
+        },
+            { $push: { message: savemessage } }
+        )
+        console.log(savemessage)
         res.status(201).json({ message: 'Message sent', newMessage });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -33,6 +32,8 @@ const createMessage = async (req, res) => {
 
 // Get all messages
 const getAllMessage = async (req, res) => {
+    
+
     try {
         const messages = await Message.find();
         res.status(200).json(messages);

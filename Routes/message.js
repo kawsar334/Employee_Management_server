@@ -7,16 +7,17 @@ const {
     createMessage,
     getAllMessage
 } = require("../controllers/message");
+const { authenticateAdmin } = require("../middleware/jwt");
 ;
 const router = express.Router();
 
 
 
 // create a mesasge 
-router.post('/messages',createMessage);
+router.post('/send',createMessage);
 
 // get all message 
-router.get('/messages',getAllMessage);
+router.get('/messages',authenticateAdmin,getAllMessage);
 
 
 

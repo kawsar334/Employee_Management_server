@@ -21,9 +21,13 @@ const Register  =async(req, res,next)=>{
             password: hashedPassword,
 
         });
-
         const user = await newUser.save();
-        return res.status(201).json(SuccessResponse(201, "Registration successful", user))
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return res.cookie(
+            "token",
+            token,
+            options
+        ).status(201).json(SuccessResponse(201, "Registration successful", user))
     }
    }catch(err){
     console.log(err)
@@ -33,7 +37,6 @@ const Register  =async(req, res,next)=>{
 
 
 // login 
-
 const Login = async(req, res, next)=>{
     try{
         const {email, password} = req.body;
@@ -78,6 +81,7 @@ const googleLogin = async (req, res, next) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
+            console.log(user)
             return res
                 .cookie("token", token, options)
                 .status(200)
@@ -118,27 +122,23 @@ const logout = (req, res, next) => {
         });
         return res.status(200).json(SuccessResponse(200, "Logout successful"));
     } catch (err) {
-        console.log(err);
         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
     }
 };
 
 
 const jwtSignin = async (req, res, next) => {
+ 
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'You are Not authenticated please register/login' });
+    }
     try {
-
-        const token = jwt.sign(
-            { id:req.body._id, role: req.body.role },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-        );
-
-        return res
-            .cookie("token", token, options)
-            .status(201)
-            .json(SuccessResponse(201, "Registration and login successful", { token, user }));
-    }catch (err) {
-        consoe.log(err);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        res.json({ success: true, message: 'User authenticated', user: req.user });
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Unauthorized: Invalid token' });
     }
 }
 

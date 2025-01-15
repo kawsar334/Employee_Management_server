@@ -9,13 +9,14 @@ app.use(cookieParser());
 app.use(express.json()); 
 const authRoute= require("./Routes/auth");
 const userRoute = require("./Routes/user"); 
-const workRoute = require("./Routes/work"); 
-const messageRoute = require("./Routes/message"); 
-
-
-
+const workRoute = require("./Routes/work");
+const messageRoute = require("./Routes/message");
+const paymentRoute = require("./Routes/payment"); 
 const database = require('./database/Database');
 const bodyParser = require("body-parser");
+
+
+
 app.use(bodyParser.json());
 const allowedOrigins = [
     'http://localhost:5173',
@@ -39,6 +40,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/work", workRoute);
 app.use("/api/message", messageRoute);
+app.use("/api/payment", paymentRoute);
 
 
 
@@ -47,7 +49,7 @@ app.get('/', (req, res) => {
     res.json('Initial  api is working *****************')
 });
 
-
+// database....
 database()
 app.listen(port, () => {
     console.log(`api running  in port: ${port}`);

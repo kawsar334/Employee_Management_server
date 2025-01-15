@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const workSchema = new mongoose.Schema({
     employeeId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', required: true
+        ref: 'User',
+         required: true,
     },
     task: {
         type: String,

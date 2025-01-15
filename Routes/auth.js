@@ -7,7 +7,7 @@ const { Register, Login, googleLogin, logout, jwtSignin } = require("../controll
 route.post("/register",Register);
 route.post("/login", Login);
 route.post("/google", googleLogin);
-route.post("/jwt", jwtSignin);
+route.get("/jwt", jwtSignin);
 route.post("/logout", logout);
 
 
