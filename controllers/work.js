@@ -35,17 +35,6 @@ const getAllworks = async (req, res, next) => {
 
 // Get a single work by specefic ID
 const getworkById = async (req, res, next) => {
-
-    // app.get('/tasks', async (req, res) => {
-    //     const { userId } = req.query;
-    //     try {
-    //         const tasks = await Task.find({ userId });
-    //         res.status(200).json(tasks);
-    //     } catch (err) {
-    //         res.status(500).json({ error: err.message });
-    //     }
-    // })
-
     const { id } = req.params;
     const userId = req.user.id;
     try {
@@ -75,7 +64,7 @@ const updatework = async (req, res, next) => {
             { task, hoursWorked, date },
             { new: true }
         ).sort({
-            createdAt: -1,
+            createdAt: -1, 
         });
 
         if (!updatedwork) {

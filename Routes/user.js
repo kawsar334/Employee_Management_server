@@ -14,8 +14,9 @@ const {
     userSlug,
     admindashboardUsers,
     firedByAdmin,
+    unfiredByAdmin,
     makeHrByAdmin,
-    updatesalaryByAdmin
+    updatesalaryByAdmin,
 
 } = require("../controllers/user");
 const { authenticateJWT, authenticateAdmin } = require("../middleware/jwt");
@@ -45,6 +46,8 @@ router.get('/details/:slug', userSlug );
 // all employee for admin dashboard
 router.get('/all-employee-list', authenticateAdmin, admindashboardUsers, );
 router.put("/fired/:userId", authenticateAdmin, firedByAdmin)
+// unfired
+router.put("/unfired/:userId", authenticateAdmin, unfiredByAdmin)
 // make hr  byAdmin
 router.put("/make-hr/:userId", authenticateAdmin, makeHrByAdmin)
 // adjust-salary

@@ -146,6 +146,7 @@ const IsVerifyEmploee = async(req, res,)=>{
             { isVerified:true },
             { new: true } 
         );
+    
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -217,6 +218,26 @@ const firedByAdmin = async(req, res,next)=>{
 
     }catch(err){
       
+        return res.status(400).json(ErrorResponse(400, "Error fired employee"));
+    }
+}
+
+const unfiredByAdmin = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { isFired: false },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+        return res.status(200).json(SuccessResponse(200, "Employee fired successfully", user));
+
+    } catch (err) {
+
         return res.status(400).json(ErrorResponse(400, "Error fired employee"));
     }
 }
@@ -307,4 +328,5 @@ module.exports = {
     firedByAdmin,
     makeHrByAdmin,
     updatesalaryByAdmin,
+    unfiredByAdmin,
 };

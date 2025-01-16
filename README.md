@@ -1,105 +1,64 @@
+# Backend Project  
 
-# Online Tutor Booking Platform - Backend
+This repository contains the backend implementation of the project. It provides the necessary APIs and logic to power the frontend application and manage data efficiently.  
 
-This is the **backend** repository for the Online grocery ecommerce. It handles the server-side logic, database operations, and API endpoints to support the frontend functionalities. The backend is built using **Node.js** and **Express.js**, with **mongoose** as the database.
-
-
-## Links
-**Backend Links**
-- [backend github link]()
-- [api Link on vercel]() +/endpoind 
-
-
-**frontend Links**
-
-- [Live Link1]()
-
-- [frontend github link]()
-
-
-## **Features**
-- 🔒 **Authentication System**:
-  - JWT-based authentication for secure access
-- 📦 **API Endpoints**:
-  - CRUD operations for users, tutors, and bookings
-- 🔍 **Search Functionality** for filtering products
-
-- 📊 **Data Management**:
-  - create product update, delete read
-- 🌐 Secure and production-ready server with proper error handling
-- 🔄 **Pagination** 
 
 ---
 
+## Features  
+- **User Management:** Handles user registration, login, and authentication using JWT.  
+- **Secure API:** Protected routes with role-based access control.  
+- **Database Integration:** CRUD operations using MongoDB.  
+- **Error Handling:** Centralized error handling for seamless debugging.  
+- **Media Uploads:** Image and file uploads using Cloudinary.  
+- **Order Management:** Admin and customer functionalities for handling orders.  
 
-## **Technologies Used**
-- **Node.js** for server-side scripting
-- **Express.js** for API and routing
-- **MongoDB** with **Mongoose** for database management
-- **JWT Authentication** for secure private routes
-- **dotenv** for environment variable management
-- **CORS** for handling cross-origin requests
+---
 
+## Technologies Used  
+- **Node.js**: JavaScript runtime environment.  
+- **Express.js**: Backend web framework for building APIs.  
+- **MongoDB**: NoSQL database for data storage.  
+- **Mongoose**: Object data modeling (ODM) library for MongoDB.  
+- **JWT**: For secure authentication.  
+- **Cloudinary**: For handling media uploads.  
+- **bcrypt.js**: For hashing passwords securely.  
 
+---
 
-## **API Endpoints**
+## API Endpoints  
+### User APIs  
+- `POST /api/users/register` - Register a new user.  
+- `POST /api/users/login` - Authenticate a user.  
 
+### Product APIs  
+- `GET /api/products` - Retrieve all products.  
+- `POST /api/products` - Add a new product (admin only).  
 
+### Order APIs  
+- `POST /api/orders` - Place a new order.  
+- `GET /api/orders` - Retrieve all orders (admin only).  
 
-### **Authentication** ======================================== ##
-- **Register a User  ##POST##**  
-  `https://server-anud.vercel.app/api/auth/register`  
-  Registers a new user in the system.
+---
 
-- **Login  ##POST##**  
-   `https://server-anud.vercel.app/api/auth/login`
-  Authenticates a user and provides a JWT token.
-  - **Login with google information store on database. ##POST##**  
-   `https://server-anud.vercel.app/api/auth/google`
-  
+## Links  
 
-- **Logout ##POST##**  
-  `https://server-anud.vercel.app/api/auth/logout`  
-  Logs out the user and clears the authentication token from cookies.
+- **Backend GitHub Repository**: [Backend Repository Link](https://github.com/your-backend-repo-link)  
+- **Frontend GitHub Repository**: [Frontend Repository Link](https://github.com/your-frontend-repo-link)  
+- **Live API**: [Live Backend Link](https://your-live-backend-link)  
 
-  ## ===========================user Related APIS=========================== ##
-  - **UPDATE a User BY userId ##PUT##**  
-  `https://server-anud.vercel.app/api/user/update/{id}`  
- - **delete a user by ID ##DELETE##**  
-  `https://server-anud.vercel.app/api/user/{id}`  
+---
 
- - **get single user by ID ##Get##**  
-  `https://server-anud.vercel.app/api/user/find/{id}`
+## Getting Started  
 
+### Prerequisites  
+Ensure you have the following installed:  
+- Node.js (v16+ recommended)  
+- MongoDB (local or cloud-based)  
 
- - **get All user  ##Get##**  
-  `https://server-anud.vercel.app/api/user/userList`
+### Installation  
 
- - **get user stats  ##Get##**  
-  `https://server-anud.vercel.app/api/user/stats`
-
- - **updated a specefic user profile picture  ##Put##**  
-  `https://server-anud.vercel.app/api/user/updatedprofilepic/{userId}`
-
-
-
-  ## ===========================PRODUCT Related APIS=========================== ##
-
-
- - **create a New product   ##Post##**  
-  `https://server-anud.vercel.app/api/product/createproduct`
-
-- **update specepic  product  by ID ##Put##**  
-  `https://server-anud.vercel.app/api/product/updateProduct/{id}`
-
-
-- **delete specepic  product  by ID ##delete##**  
-  `https://server-anud.vercel.app/api/product/{id}`
-
-- **Get specepic  product  by ID ##Get##**  
-  `https://server-anud.vercel.app/api/find/product/{id}`
-
-- **Get All  product   ##Get##**  
-  `https://server-anud.vercel.app/api/product/productList`
-
-
+1. Clone the repository:  
+   ```bash  
+   git clone https://github.com/your-backend-repo-link  
+   cd project-folder  

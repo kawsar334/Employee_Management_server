@@ -30,7 +30,7 @@ const Register  =async(req, res,next)=>{
         ).status(201).json(SuccessResponse(201, "Registration successful", user))
     }
    }catch(err){
-    console.log(err)
+
        return res.status(400).json(ErrorResponse(400, err))
    }
 }
@@ -66,26 +66,81 @@ const Login = async(req, res, next)=>{
 };
 
 
+// //login with google functionality 
+// const googleLogin = async (req, res, next) => {
+//     try {
+//         const { email, name, photoURL } = req.body; 
+
+//         if (!email) {
+//             return res.status(400).json(ErrorResponse(400, "Email is required"));
+//         }
+//         let user = await User.findOne({ email });
+//         if (user) {
+//             const token = jwt.sign(
+//                 { id: user._id, role: user.role },
+//                 process.env.JWT_SECRET,
+//                 { expiresIn: "1h" }
+//             );
+//             console.log(user)
+//             return res
+//                 .cookie("token", token, options)
+//                 .status(200)
+//                 .json(SuccessResponse(200, "Login successful", { token, user }));
+//         } else {
+//             const newUser = new User({
+//                 name,
+//                 email,
+//                 photoURL,
+//                 role: "employee",
+//             });
+
+//             user = await newUser.save();
+
+//             const token = jwt.sign(
+//                 { id: user._id, role: user.role },
+//                 process.env.JWT_SECRET,
+//                 { expiresIn: "1h" }
+//             );
+
+//             return res
+//                 .cookie("token", token, options)
+//                 .status(201)
+//                 .json(SuccessResponse(201, "Registration and login successful", { token, user }));
+//         }
+//     } catch (err) {
+//         console.error(err);
+//         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
+//     }
+// };
+
+
 //login with google functionality 
 const googleLogin = async (req, res, next) => {
     try {
-        const { email, name, photoURL } = req.body; 
+        const { email, name, photoURL } = req.body;
 
         if (!email) {
             return res.status(400).json(ErrorResponse(400, "Email is required"));
         }
         let user = await User.findOne({ email });
         if (user) {
-            const token = jwt.sign(
-                { id: user._id, role: user.role },
-                process.env.JWT_SECRET,
-                { expiresIn: "1h" }
-            );
-            console.log(user)
-            return res
-                .cookie("token", token, options)
-                .status(200)
-                .json(SuccessResponse(200, "Login successful", { token, user }));
+            if (user.isFired=== true){
+                console.log("noasfsadfknkdsnf")
+                return res.status(500).json(ErrorResponse(500, "You are Not allwed"));
+            }
+            else{
+
+                const token = jwt.sign(
+                    { id: user._id, role: user.role },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+                console.log(user)
+                return res
+                    .cookie("token", token, options)
+                    .status(200)
+                    .json(SuccessResponse(200, "Login successful", { token, user }));
+            }
         } else {
             const newUser = new User({
                 name,
@@ -112,6 +167,7 @@ const googleLogin = async (req, res, next) => {
         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
     }
 };
+
 
 const logout = (req, res, next) => {
     try {
