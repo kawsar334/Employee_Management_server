@@ -5,10 +5,13 @@ const { creatework,
     getAllworks,
     getworkById,
     updatework,
-    deletework } = require("../controllers/work");
+    deletework, getworksOfAllEmployee } = require("../controllers/work");
 const { authenticateJWT } = require("../middleware/jwt");
+const user = require("../models/user");
+const work = require("../models/work");
+const Payment = require("../models/Payment");
 
-// create a new work 
+// create a new work  with authenticated employee
 route.post("/creatework", authenticateJWT, creatework);
 // update work by Id
 route.put("/:id", authenticateJWT, updatework);
@@ -20,6 +23,7 @@ route.get("/find/:id", authenticateJWT, getworkById);
 route.get("/workList", authenticateJWT, getAllworks);
 
 
+route.get('/work-records', getworksOfAllEmployee);
 
 
 

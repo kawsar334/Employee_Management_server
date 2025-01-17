@@ -18,7 +18,7 @@ const updateUser = async (req, res, next) => {
 
         return res.status(200).json(SuccessResponse(200, "User updated successfully", updatedUser));
     } catch (err) {
-        console.log(err);
+     
         return res.status(400).json(ErrorResponse(400, "Error updating user"));
     }
 };
@@ -35,7 +35,7 @@ const deleteUser = async (req, res, next) => {
 
         return res.status(200).json(SuccessResponse(200, "User deleted successfully", deletedUser));
     } catch (err) {
-        console.log(err);
+  
         return res.status(400).json(ErrorResponse(400, "Error deleting user"));
     }
 };
@@ -52,7 +52,7 @@ const getSingleUser = async (req, res, next) => {
         }
         return res.status(200).json(SuccessResponse(200, "User fetched successfully", user));
     } catch (err) {
-        console.log(err);
+      
         return res.status(400).json(ErrorResponse(400, "Error fetching user"));
     }
 };
@@ -60,10 +60,12 @@ const getSingleUser = async (req, res, next) => {
 // Get all users
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User.find();
+        const { page = 1, limit = 5 } = req.query;
+        // const users = await User.find().sort({createdAt: -1 }).skip((page-1) *limit).limit(Number(limit))
+        const users = await User.find()
         return res.status(200).json(SuccessResponse(200, "Users fetched successfully", users));
     } catch (err) {
-        console.log(err);
+       
         return res.status(400).json(ErrorResponse(400, "Error fetching users"));
     }
 };
@@ -88,7 +90,7 @@ const getUserStats = async (req, res, next) => {
 
         return res.status(200).json(SuccessResponse(200, "User stats fetched successfully", stats ));
     } catch (err) {
-        console.log(err);
+       
         return res.status(400).json(ErrorResponse(400, err));
     }
 }; 
@@ -103,7 +105,7 @@ const updateProfilePicture = async (req, res) => {
         if ( !photoURL) {
             return res.status(400).send("User ID and profile picture URL are required.");
         }
-        console.log(userId)
+      
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId,
             { photoURL: photoURL },
@@ -119,7 +121,7 @@ const updateProfilePicture = async (req, res) => {
             photoURL: updatedUser.photoURL,
         });
     } catch (err) {
-        console.error(err);
+     
         res.status(500).send("Server error.");
     }
 }
@@ -131,7 +133,7 @@ const getEmployeeList = async (req, res) => {
         const users = await User.find({ role: "employee" }).sort({createdAt: -1});
         res.status(200).json(SuccessResponse(200, "Employee List fetched successfully", users));
     } catch (err) {
-        console.log(err);
+        
         return res.status(400).json(ErrorResponse(400, "Error fetching employees"));
     }
 };
@@ -155,7 +157,7 @@ const IsVerifyEmploee = async(req, res,)=>{
         }
        return res.status(200).json(SuccessResponse(200, "Employee verification status updated successfully", user));
     }catch(err){
-        // console.log(err);
+        
         return res.status(400).json(ErrorResponse(400, "Error verifying employee"));
     }
 }
@@ -185,7 +187,7 @@ const userSlug = async (req, res) => {
         });
 
     } catch (err) {
-        console.error(err);
+      
         return res.status(500).json({ message: 'Server error' });
     }
 }
@@ -254,7 +256,8 @@ const makeHrByAdmin = async(req, res)=>{
         return res.status(200).json(SuccessResponse(200, "Employee promoted to HR", user));
     
     }catch(err){
-        console.log(err)
+     
+        return res.status(400).json(ErrorResponse(400, "Error promoting employee to HR"));
     }
 }
 
@@ -306,8 +309,7 @@ const updatesalaryByAdmin = async (req, res) => {
             .status(200)
             .json(SuccessResponse(200, "Salary updated successfully", updatedUser));
     } catch (err) {
-        // Handle server errors
-        console.error("Error updating salary:", err);
+       
         return res.status(500).json({ message: "Server error", error: err.message });
     }
 };

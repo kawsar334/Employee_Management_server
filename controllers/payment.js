@@ -5,8 +5,8 @@ const user = require("../models/user");
 
 const createPay =async(req,res,)=>{
     try{
-
-        const employee = await user.findById(req.params.id);
+        // enshure hr ===========
+        if (req.user.role==="hr") {const employee = await user.findById(req.params.id);
 
         const newPay = new Payment({
 
@@ -17,27 +17,32 @@ const createPay =async(req,res,)=>{
         });
 
         const pay = await newPay.save();
-        
-        res.status(201).json(pay);
+          
+        res.status(201).json(pay);}
+        else{
+            return res.status(403).json({msg: "Access denied, Only HR can create payment."});
+        }
 
     }catch(err){
-        console.log(err);
+    
+
+        return res.status(400).json(err)
     } 
 }
 
 
-
+// payment  for admin 
  const payment = async (req, res) => {
     try {
         const { page = 1, limit = 5 } = req.query; 
         const employeeId = req.user.id; 
-
-        const payment = await Payment.find()
         // const payments = await Payment.find({ employeeId })
+        const payment = await Payment.find().sort({createdAt: -1})
             .sort({ year: 1, month: 1 })
             .skip((page - 1) * limit)
             .limit(parseInt(limit));
-        const totalPayments = await Payment.countDocuments({ employeeId });
+        const totalPayments = await Payment.countDocuments();
+
         res.json({
     
             totalPages: Math.ceil(totalPayments / limit),
@@ -50,8 +55,6 @@ const createPay =async(req,res,)=>{
 };
 
 // convert status panding in to paid by admin 
-
-
 const updatestatusOfPayment= async(req, res)=>{
     try{
         const updateEmployeeId = await Payment.findByIdAndUpdate(req.params.id, {
@@ -69,7 +72,7 @@ const updatestatusOfPayment= async(req, res)=>{
     });
     }catch(err){
         res.status(500).json({ error: 'Server error' });
-        console.log(err);
+     
     }
 }
 
@@ -78,17 +81,16 @@ const updatestatusOfPayment= async(req, res)=>{
 const getEmployeeDetails = async (req, res) => {
     try {
         // const totalSalary = payments.reduce((acc, curr) => acc + curr.salary, 0);
-        const employeeId = req.params.id;
+        // enshure hr ===========
+        if(req.user.role=== "hr"){const employeeId = req.params.id;
         const employee = await user.findById(employeeId);
         const payments = await Payment.find({ employeeId });
-
-        // const totalSalary = payments.reduce((acc, curr) => acc + curr.salary, 0);
-
         res.json({
             employee,
            pay: payments,
-            // totalSalary
-        });
+        });}else{
+            return res.status(403).json({msg: "Access denied, Only HR can get employee details."});
+        }
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }
@@ -96,17 +98,22 @@ const getEmployeeDetails = async (req, res) => {
 
 
 // payment history  of user----------this is for user 
-
 const getPaymentHistory = async (req, res) => {
     try {
-        const employeeId = req.user.id;
-        const payments = await Payment.find({ employeeId: req.user.id });
+        const { page = 1, limit = 5 } = req.query;
+        const totalPayments = await Payment.countDocuments({ employeeId: req.user.id });
+        const payments = await Payment.find({ employeeId: req.user.id })
+            .sort({ createdAt: 1 }) // Sort by earliest month first
+            .skip((page - 1) * limit)
+            .limit(Number(limit));
         res.json({
             message:"payment information fetch succefully ",
-            payments
+            payments,
+            currentPage: Number(page),
+            totalPages: Math.ceil(totalPayments / limit),
         });
     } catch (error) {
-        console.log(error)
+       
         res.status(500).json({ error: 'Server error' });
     }
 };

@@ -60,7 +60,7 @@ const Login = async(req, res, next)=>{
         }
     
     }catch(err){
-        console.log(err)
+   
         return res.status(400).json(ErrorResponse(400, err))
     }
 };
@@ -108,7 +108,7 @@ const Login = async(req, res, next)=>{
 //                 .json(SuccessResponse(201, "Registration and login successful", { token, user }));
 //         }
 //     } catch (err) {
-//         console.error(err);
+
 //         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
 //     }
 // };
@@ -125,7 +125,7 @@ const googleLogin = async (req, res, next) => {
         let user = await User.findOne({ email });
         if (user) {
             if (user.isFired=== true){
-                console.log("noasfsadfknkdsnf")
+    
                 return res.status(500).json(ErrorResponse(500, "You are Not allwed"));
             }
             else{
@@ -135,7 +135,7 @@ const googleLogin = async (req, res, next) => {
                     process.env.JWT_SECRET,
                     { expiresIn: "1h" }
                 );
-                console.log(user)
+              
                 return res
                     .cookie("token", token, options)
                     .status(200)
@@ -163,7 +163,7 @@ const googleLogin = async (req, res, next) => {
                 .json(SuccessResponse(201, "Registration and login successful", { token, user }));
         }
     } catch (err) {
-        console.error(err);
+ 
         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
     }
 };

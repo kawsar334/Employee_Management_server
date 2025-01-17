@@ -9,9 +9,10 @@ const authenticateJWT = (req, res, next) => {
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         req.user = verified;
+        // console.log(req.user.role)
         next();
     } catch (err) {
-        console.log(err)
+      
         res.status(400).send('Invalid Token');
     }
 };
@@ -30,7 +31,7 @@ const authenticateAdmin = (req, res, next) => {
         }
         next(); 
     } catch (err) {
-        console.log(err)
+  
         res.status(400).send('Invalid Token');
     }
 };

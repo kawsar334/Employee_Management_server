@@ -22,7 +22,7 @@ const createMessage = async (req, res) => {
         },
             { $push: { message: savemessage } }
         )
-        console.log(savemessage)
+  
         res.status(201).json({ message: 'Message sent', newMessage });
     } catch (err) {
         res.status(500).json({ error: err.message });

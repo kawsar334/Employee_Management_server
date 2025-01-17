@@ -9,21 +9,15 @@ const { authenticateJWT, authenticateAdmin } = require('../middleware/jwt');
 
 // for hr
 router.post("/createpay/:id", authenticateJWT, createPay);
-
 // for addmin page
-router.get("/payment-history",authenticateAdmin, payment)
-
-
+router.get("/payment-history",authenticateJWT, payment);
 //  updatestatusOfPayment
 router.put("/updatestatusOfPayment/:id", authenticateAdmin, updatestatusOfPayment);
 
-
 // getEmployeeDetails for hr /this is can see only hr
-
 router.get("/getEmployeeDetails/:id", authenticateJWT, getEmployeeDetails);
+
 // getPaymentHistory of user for employee dashboard 
-
 router.get("/getPaymentHistory", authenticateJWT, getPaymentHistory);
-
 
 module.exports = router;
