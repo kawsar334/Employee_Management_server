@@ -42,11 +42,15 @@ const Login = async(req, res, next)=>{
         const {email, password} = req.body;
 
         const user = await User.findOne({email:req.body.email});
+        if (user.isFired === true) {
+
+            return res.status(500).json(ErrorResponse(500, "You are Not allwed"));
+        }
         if(!user){
             return res.status(400).json(ErrorResponse(400, "User Not Found"))
         }else{
             const isMatch = await bcrypt.compare(password, user.password);
-
+           
             if (!isMatch) {
                 return res.status(400).json(ErrorResponse(400, "Invalid Email or password"))
             }else{
@@ -124,8 +128,8 @@ const googleLogin = async (req, res, next) => {
         }
         let user = await User.findOne({ email });
         if (user) {
-            if (user.isFired=== true){
-    
+            if (user.isFired === true){
+                
                 return res.status(500).json(ErrorResponse(500, "You are Not allwed"));
             }
             else{

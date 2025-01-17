@@ -46,8 +46,8 @@ router.get('/details/:slug', userSlug );
 // all employee for admin dashboard
 router.get('/all-employee-list', authenticateAdmin, admindashboardUsers, );
 router.put("/fired/:userId", authenticateAdmin, firedByAdmin)
-// unfired
-router.put("/unfired/:userId", authenticateAdmin, unfiredByAdmin)
+// unfired by admin
+router.put("/unfired/:userId", unfiredByAdmin)
 // make hr  byAdmin
 router.put("/make-hr/:userId", authenticateAdmin, makeHrByAdmin)
 // adjust-salary
