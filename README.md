@@ -96,5 +96,5 @@ This repository contains the backend implementation of the project. It provides 
 
 This API enables you to handle authentication, messaging, payments, and employee management for your system. Be sure to authenticate the appropriate roles before accessing sensitive endpoints.
 
-For additional help, feel free to reach out to the support team or refer to the API documentation
+
 ---
