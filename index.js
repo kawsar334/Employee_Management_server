@@ -12,6 +12,8 @@ const userRoute = require("./Routes/user");
 const workRoute = require("./Routes/work");
 const messageRoute = require("./Routes/message");
 const paymentRoute = require("./Routes/payment"); 
+const stripeRoute = require("./Routes/stripe"); 
+
 const database = require('./database/Database');
 const bodyParser = require("body-parser");
 
@@ -42,6 +44,8 @@ app.use("/api/user", userRoute);
 app.use("/api/work", workRoute);
 app.use("/api/message", messageRoute);
 app.use("/api/payment", paymentRoute);
+app.use("/api/stripe", stripeRoute);
+
 
 
 
