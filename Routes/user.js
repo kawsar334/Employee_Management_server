@@ -28,7 +28,7 @@ router.put("/update/:id", authenticateJWT, updateUser);
 router.delete("/:id", authenticateJWT, deleteUser);
 
 // Route to get a single user by ID
-router.get("/find/:id", authenticateJWT, getSingleUser);
+router.get("/find/", authenticateJWT, getSingleUser);
 
 // Route to get all users
 router.get("/userList", authenticateJWT, getAllUsers);
