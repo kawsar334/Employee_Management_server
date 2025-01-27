@@ -20,11 +20,45 @@ const bodyParser = require("body-parser");
 
 
 app.use(bodyParser.json());
+// const allowedOrigins = [
+//     'http://localhost:5173',
+//     'http://localhost:5174',
+//     "https://reliable-eclair-d8edc7.netlify.app"
+// ];
+
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if (allowedOrigins.includes(origin) || !origin) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     credentials: true, 
+// }));
+
+
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
-    "https://reliable-eclair-d8edc7.netlify.app"
+    'https://reliable-eclair-d8edc7.netlify.app'
 ];
+
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if (allowedOrigins.includes(origin) || !origin) {
+//             callback(null, true); // Allow the origin
+//         } else {
+//             console.error(`CORS error: Origin ${origin} not allowed`);
+//             callback(new Error('CORS policy: This origin is not allowed.'));
+//         }
+//     },
+//     credentials: true, // Allows cookies or credentials
+// }));
+
+// app.options('*', cors());
+
+
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -34,10 +68,19 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true, 
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
+    res.sendStatus(200);
+});
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);

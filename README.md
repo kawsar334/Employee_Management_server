@@ -81,7 +81,7 @@ This repository contains the backend implementation of the project. It provides 
 - `Get /api/getPaymentHistory` -  (Authenticated User) Retrieves the payment history for the logged-in user.
 - `GET /api/details/:slug` - (HR Only) Retrieves user details by slug.. 
 - `Get /api/getPaymentHistory` -  (Authenticated User) Retrieves the payment history for the logged-in user.
-### Order APIs  
+### Employee   
 - `get /api/all-employee-list` -  (Admin Only) Retrieves a list of all employees. Requires admin authentication.  
 - `GET /api/fired/:userId` - (Admin Only) Marks an employee as fired. Requires admin authentication. 
 - `GET /api/unfired/:userId` - (Admin Only) Reverts the firing status of an employee. Requires admin authentication.

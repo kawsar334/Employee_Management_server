@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
     },
     bankAccountNo: {
         type: String,
-        required: true,
+        // required: true,
+        default:""
 
     },
     salary: {

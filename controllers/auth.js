@@ -22,7 +22,7 @@ const Register  =async(req, res,next)=>{
 
         });
         const user = await newUser.save();
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '5h' });
         return res.cookie(
             "token",
             token,
@@ -54,7 +54,7 @@ const Login = async(req, res, next)=>{
             if (!isMatch) {
                 return res.status(400).json(ErrorResponse(400, "Invalid Email or password"))
             }else{
-                const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h'});
+                const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '5h'});
                 return res.cookie(
                     "token",
                     token,
@@ -83,7 +83,7 @@ const Login = async(req, res, next)=>{
 //             const token = jwt.sign(
 //                 { id: user._id, role: user.role },
 //                 process.env.JWT_SECRET,
-//                 { expiresIn: "1h" }
+//                 { expiresIn: "5h" }
 //             );
 //             console.log(user)
 //             return res
@@ -103,7 +103,7 @@ const Login = async(req, res, next)=>{
 //             const token = jwt.sign(
 //                 { id: user._id, role: user.role },
 //                 process.env.JWT_SECRET,
-//                 { expiresIn: "1h" }
+//                 { expiresIn: "5h" }
 //             );
 
 //             return res
@@ -122,24 +122,16 @@ const Login = async(req, res, next)=>{
 const googleLogin = async (req, res, next) => {
     try {
         const { email, name, photoURL } = req.body;
-
         if (!email) {
             return res.status(400).json(ErrorResponse(400, "Email is required"));
         }
         let user = await User.findOne({ email });
         if (user) {
             if (user.isFired === true){
-                
                 return res.status(500).json(ErrorResponse(500, "You are Not allwed"));
             }
             else{
-
-                const token = jwt.sign(
-                    { id: user._id, role: user.role },
-                    process.env.JWT_SECRET,
-                    { expiresIn: "1h" }
-                );
-              
+                const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,{ expiresIn: "5h" });
                 return res
                     .cookie("token", token, options)
                     .status(200)
@@ -149,28 +141,84 @@ const googleLogin = async (req, res, next) => {
             const newUser = new User({
                 name,
                 email,
-                photoURL,
+                photoURL, 
                 role: "employee",
             });
 
             user = await newUser.save();
-
-            const token = jwt.sign(
-                { id: user._id, role: user.role },
-                process.env.JWT_SECRET,
-                { expiresIn: "1h" }
-            );
-
+        
+            
+            const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,{ expiresIn: "5h" });
             return res
                 .cookie("token", token, options)
                 .status(201)
                 .json(SuccessResponse(201, "Registration and login successful", { token, user }));
         }
-    } catch (err) {
- 
+    } catch (err) { 
+        console.log(err)
         return res.status(500).json(ErrorResponse(500, "Internal Server Error"));
     }
 };
+
+
+// const googleLogin = async (req, res, next) => {
+//     try {
+//         const { email, name, photoURL } = req.body;
+
+//         if (!email) {
+//             return res.status(400).json(ErrorResponse(400, "Email is required"));
+//         }
+
+//         const options = {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === 'production',
+//             sameSite: 'Strict',
+//         };
+
+//         // Find user by email
+//         let user = await User.findOne({ email });
+//         if (user) {
+//             if (user.isFired === true) {
+//                 return res.status(403).json(ErrorResponse(403, "You are not allowed"));
+//             }
+
+//             const token = jwt.sign(
+//                 { id: user._id, role: user.role },
+//                 process.env.JWT_SECRET,
+//                 { expiresIn: "5h" }
+//             );
+
+//             return res
+//                 .cookie("token", token, options)
+//                 .status(200)
+//                 .json(SuccessResponse(200, "Login successful", { token, user }));
+//         } else {
+//             // Create a new user
+//             const newUser = new User({
+//                 name,
+//                 email,
+//                 photoURL,
+//                 role: "employee",
+//             });
+
+//             user = await newUser.save();
+
+//             const token = jwt.sign(
+//                 { id: user._id, role: user.role },
+//                 process.env.JWT_SECRET,
+//                 { expiresIn: "5h" }
+//             );
+
+//             return res
+//                 .cookie("token", token, options)
+//                 .status(201)
+//                 .json(SuccessResponse(201, "Registration and login successful", { token, user }));
+//         }
+//     } catch (err) {
+//         console.error("Error in googleLogin:", err.message);
+//         return res.status(500).json(ErrorResponse(500, `Internal Server Error: ${err.message}`));
+//     }
+// };
 
 
 const logout = (req, res, next) => {

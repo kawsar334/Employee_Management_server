@@ -20,6 +20,9 @@ const {
 
 } = require("../controllers/user");
 const { authenticateJWT, authenticateAdmin } = require("../middleware/jwt");
+const user = require("../models/user");
+const Payment = require("../models/Payment");
+const work = require("../models/work");
 
 // Route to update a user by ID
 router.put("/update/:id", authenticateJWT, updateUser);
@@ -53,8 +56,10 @@ router.put("/make-hr/:userId", authenticateAdmin, makeHrByAdmin)
 // adjust-salary
 router.put('/adjust-salary/:userId', authenticateAdmin, updatesalaryByAdmin)
 // get employee for hr progrees 
-router.get('/api/employees', (req, res) => {
-    res.json(employees);
-});
+// router.get('/api/employees', async(req, res) => {
+//     // this  route for delete testing data 
+//     // const User = await work.deleteMany()
+//     // res.json(User);
+// });
 
 module.exports = router;
