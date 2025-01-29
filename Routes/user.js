@@ -55,11 +55,4 @@ router.put("/unfired/:userId", unfiredByAdmin)
 router.put("/make-hr/:userId", authenticateAdmin, makeHrByAdmin)
 // adjust-salary
 router.put('/adjust-salary/:userId', authenticateAdmin, updatesalaryByAdmin)
-// get employee for hr progrees 
-// router.get('/api/employees', async(req, res) => {
-//     // this  route for delete testing data 
-//     // const User = await work.deleteMany()
-//     // res.json(User);
-// });
-
 module.exports = router;

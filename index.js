@@ -20,23 +20,6 @@ const bodyParser = require("body-parser");
 
 
 app.use(bodyParser.json());
-// const allowedOrigins = [
-//     'http://localhost:5173',
-//     'http://localhost:5174',
-//     "https://reliable-eclair-d8edc7.netlify.app"
-// ];
-
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if (allowedOrigins.includes(origin) || !origin) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     },
-//     credentials: true, 
-// }));
-
 
 const allowedOrigins = [
     'http://localhost:5173',
@@ -44,19 +27,6 @@ const allowedOrigins = [
     'https://reliable-eclair-d8edc7.netlify.app'
 ];
 
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if (allowedOrigins.includes(origin) || !origin) {
-//             callback(null, true); // Allow the origin
-//         } else {
-//             console.error(`CORS error: Origin ${origin} not allowed`);
-//             callback(new Error('CORS policy: This origin is not allowed.'));
-//         }
-//     },
-//     credentials: true, // Allows cookies or credentials
-// }));
-
-// app.options('*', cors());
 
 
 

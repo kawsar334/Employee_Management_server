@@ -18,7 +18,7 @@ const createStripe = async (req, res) => {
             card: { token: tokenId },
         });
 
-        // Create a PaymentIntent for the charge
+        // Create a PaymentIntent for the charge================
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount * 100,
             currency: 'usd',

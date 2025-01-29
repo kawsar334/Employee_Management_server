@@ -76,11 +76,10 @@ const updatestatusOfPayment= async(req, res)=>{
     }
 }
 
-// for hr , user details salary, 
+// for hr , user details salary,-------------- 
 
 const getEmployeeDetails = async (req, res) => {
     try {
-        // const totalSalary = payments.reduce((acc, curr) => acc + curr.salary, 0);
         // enshure hr ===========
         if(req.user.role=== "hr"){const employeeId = req.params.id;
         const employee = await user.findById(employeeId);
@@ -103,7 +102,7 @@ const getPaymentHistory = async (req, res) => {
         const { page = 1, limit = 5 } = req.query;
         const totalPayments = await Payment.countDocuments({ employeeId: req.user.id });
         const payments = await Payment.find({ employeeId: req.user.id })
-            .sort({ createdAt: 1 }) // Sort by earliest month first
+            .sort({ createdAt: 1 })
             .skip((page - 1) * limit)
             .limit(Number(limit));
         res.json({

@@ -5,7 +5,7 @@ const user = require("../models/user");
 
 
 
-// create message
+// create message----------------------------
 const createMessage = async (req, res) => {
     try {
         const { email, message } = req.body;
@@ -30,7 +30,7 @@ const createMessage = async (req, res) => {
 }
 
 
-// Get all messages
+// Get all messages in admin panelllll------------------------------
 const getAllMessage = async (req, res) => {
     
 

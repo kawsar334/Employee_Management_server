@@ -1,4 +1,4 @@
-// controllers/userController.js
+
 
 const User = require("../models/user");
 const { SuccessResponse, ErrorResponse } = require("../middleware/customMessage");
@@ -60,8 +60,7 @@ const getSingleUser = async (req, res, next) => {
 // Get all users
 const getAllUsers = async (req, res, next) => {
     try {
-        const { page = 1, limit = 5 } = req.query;
-        // const users = await User.find().sort({createdAt: -1 }).skip((page-1) *limit).limit(Number(limit))
+     
         const users = await User.find()
         return res.status(200).json(SuccessResponse(200, "Users fetched successfully", users));
     } catch (err) {
@@ -70,7 +69,7 @@ const getAllUsers = async (req, res, next) => {
     }
 };
 
-// Get user stats (e.g., total number of users, etc.)
+// Get user stats 
 const getUserStats = async (req, res, next) => {
     try {
         const totalUsers = await User.countDocuments();
@@ -180,10 +179,10 @@ const userSlug = async (req, res) => {
         res.json({
             employee: {
                 name: employee.name,
-                photoURL: employee.photoURL, // Assuming the field is photoURL
+                photoURL: employee.photoURL, 
                 designation: employee.designation,
             },
-            salaryData, // Salary history data for the chart
+            salaryData, 
         });
 
     } catch (err) {
@@ -264,28 +263,6 @@ const makeHrByAdmin = async(req, res)=>{
 }
 
 
-// updated salary by admin
-
-// const updatesalaryByAdmin = async (req, res) => {
-//     const { salary } = req.body;
-//     try {
-//         const userId = await User.findById(req.params.userId);
-//         const updatedSlary = await User.findByIdAndUpdate({
-//             userId,
-//             salary,
-//             $push: { salaryHistory: { salary, date: new Date() } },
-//         })
-//         if (updatedSlary) {
-           
-//             // res.json({ message: "Salary updated successfully" });
-//             return res.status(200).json(SuccessResponse(200, "salary updated successfully", updatedSlary));
-//         } else {
-//             res.status(404).json({ message: "Employee not found" });
-//         }
-//     } catch (err) {
-//         res.status(500).json({ message: "Server error", error: err });
-//     }
-// }
 
 const updatesalaryByAdmin = async (req, res) => {
     const { salary } = req.body;
